@@ -45,6 +45,7 @@ public class ConsultoriaController {
     @Autowired
     private ClienteRepositorio clienteRepo;
 
+    @SuppressWarnings("null")
     @Operation(summary = "Cria uma nova consultoria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Consultoria criada com sucesso", content = {
