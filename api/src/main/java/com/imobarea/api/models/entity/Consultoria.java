@@ -1,13 +1,23 @@
-package com.imobarea.api.models;
+package com.imobarea.api.models.entity;
 
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Consultoria {
+
+    public Consultoria(Cliente cliente, AgenteImobiliario agenteImobiliario, Date dataHora) {
+        this.cliente = cliente;
+        this.agenteImobiliario = agenteImobiliario;
+        this.dataHora = dataHora;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

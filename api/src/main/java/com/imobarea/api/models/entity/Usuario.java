@@ -1,9 +1,11 @@
-package com.imobarea.api.models;
+package com.imobarea.api.models.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;;
+import jakarta.validation.constraints.*;
+import lombok.NoArgsConstructor;
 
 @MappedSuperclass
+@NoArgsConstructor
 public class Usuario {
 
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
@@ -12,7 +14,12 @@ public class Usuario {
     @Size(min = 10, max = 100, message = "Endereço deve ter entre 10 e 100 caracteres")
     private String endereco;
 
+    @Column(unique = true)
+    @Pattern(regexp = "(\\(\\d{2}\\))|(\\d{2})\\d{4,5}-?\\d{4}", message = "Telefone inválido")
     private String telefone;
+
+    @Size(min = 8, max = 50, message = "Senha deve ter entre 8 e 50 caracteres")
+    private String senha;
 
     @Email(message = "Email inválido")
     private String email;
