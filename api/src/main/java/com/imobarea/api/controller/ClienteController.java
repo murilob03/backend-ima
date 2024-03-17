@@ -102,8 +102,6 @@ public class ClienteController {
         if (clienteAtualizado != null) {
             if (usuarioDTO.telefone() != null)
                 clienteAtualizado.setTelefone(usuarioDTO.telefone());
-            if (usuarioDTO.endereco() != null)
-                clienteAtualizado.setEndereco(usuarioDTO.endereco());
             if (usuarioDTO.email() != null)
                 clienteAtualizado.setEmail(usuarioDTO.email());
         } else
@@ -129,7 +127,6 @@ public class ClienteController {
     private LerClienteDTO mapEntityToDTO(Cliente cliente) {
         LerUsuarioDTO usuarioDTO = new LerUsuarioDTO(
                 cliente.getNome(),
-                cliente.getEndereco(),
                 cliente.getTelefone(),
                 cliente.getEmail());
 

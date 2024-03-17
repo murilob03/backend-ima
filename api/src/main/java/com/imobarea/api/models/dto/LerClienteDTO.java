@@ -11,10 +11,6 @@ public record LerClienteDTO (
         return usuario.nome();
     }
 
-    public String getEndereco() {
-        return usuario.endereco();
-    }
-
     public String getTelefone() {
         return usuario.telefone();
     }
