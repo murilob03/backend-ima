@@ -63,7 +63,7 @@ public class ConsultoriaController {
         if (cliente == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
 
-        Consultoria consultoria = new Consultoria(cliente, agente, consultoriaDTO.dataHora());
+        Consultoria consultoria = new Consultoria(cliente, agente, consultoriaDTO.data(), consultoriaDTO.hora());
 
         try {
             consultoria = consultoriaRepo.save(consultoria);
@@ -132,8 +132,10 @@ public class ConsultoriaController {
                 else
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agente imobiliário não encontrado");
             }
-            if (consultoriaDTO.dataHora() != null)
-                consultoriaAtualizada.setDataHora(consultoriaDTO.dataHora());
+            if (consultoriaDTO.data() != null)
+                consultoriaAtualizada.setData(consultoriaDTO.data());
+            if (consultoriaDTO.hora() != null)
+                consultoriaAtualizada.setData(consultoriaDTO.hora());
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Consultoria não encontrada");
 
@@ -142,7 +144,8 @@ public class ConsultoriaController {
         CriarConsultoriaDTO consultoriaSalva = new CriarConsultoriaDTO(
                 consultoriaAtualizada.getCliente().getCpf(),
                 consultoriaAtualizada.getAgenteImobiliario().getCreci(),
-                consultoriaAtualizada.getDataHora());
+                consultoriaAtualizada.getData(),
+                consultoriaAtualizada.getHora());
 
         return consultoriaSalva;
     }

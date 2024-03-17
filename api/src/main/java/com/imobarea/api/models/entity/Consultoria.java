@@ -1,10 +1,8 @@
 package com.imobarea.api.models.entity;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -13,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Consultoria {
 
-    public Consultoria(Cliente cliente, AgenteImobiliario agenteImobiliario, Date dataHora) {
+    public Consultoria(Cliente cliente, AgenteImobiliario agenteImobiliario, String data, String hora) {
         this.cliente = cliente;
         this.agenteImobiliario = agenteImobiliario;
-        this.dataHora = dataHora;
+        this.data = data;
+        this.hora = hora;
     }
 
     @Id
@@ -31,8 +30,13 @@ public class Consultoria {
     @JoinColumn(name = "creci")
     private AgenteImobiliario agenteImobiliario;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-    private Date dataHora;
+    @NotBlank 
+    @Pattern(regexp = "\\d{4}/\\d{2}/\\d{2}")
+    private String data;
+
+    @NotBlank 
+    @Pattern(regexp = "\\d{2}:\\d{2}") 
+    private String hora;
 
     public long getId() {
         return id;
@@ -54,11 +58,19 @@ public class Consultoria {
         this.agenteImobiliario = agenteImobiliario;
     }
 
-    public Date getDataHora() {
-        return dataHora;
+    public String getData() {
+        return data;
     }
 
-    public void setDataHora(Date dataHora) {
-        this.dataHora = dataHora;
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 }
