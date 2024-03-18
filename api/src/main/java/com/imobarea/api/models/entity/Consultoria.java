@@ -24,18 +24,22 @@ public class Consultoria {
 
     @ManyToOne
     @JoinColumn(name = "cpf")
+    @Column(nullable = false)
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "creci")
+    @Column(nullable = false)
     private AgenteImobiliario agenteImobiliario;
 
     @NotBlank 
     @Pattern(regexp = "\\d{4}/\\d{2}/\\d{2}")
+    @Column(nullable = false)
     private String data;
 
     @NotBlank 
     @Pattern(regexp = "\\d{2}:\\d{2}") 
+    @Column(nullable = false)
     private String hora;
 
     public long getId() {

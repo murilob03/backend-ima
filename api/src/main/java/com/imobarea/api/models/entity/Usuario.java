@@ -16,17 +16,21 @@ import lombok.NoArgsConstructor;
 public class Usuario implements UserDetails {
 
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
+    @Column(nullable = false)
     private String nome;
 
-    @Column(unique = true)
     @Pattern(regexp = "(\\(\\d{2}\\)|\\d{2})(\\d{4,5}-?\\d{4}|\\d{8,9})", message = "Telefone inválido")
+    @Column(unique = true, nullable = false)
     private String telefone;
 
+    @Column(nullable = false)
     private String senha;
 
     @Email(message = "Email inválido")
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private UserRole role;
 
     public Usuario(String nome, String telefone, String senha, String email, UserRole role) {
