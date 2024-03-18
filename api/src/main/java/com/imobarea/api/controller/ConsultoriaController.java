@@ -55,15 +55,15 @@ public class ConsultoriaController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CriarConsultoriaDTO criarConsultoria(@RequestBody @Valid @NonNull CriarConsultoriaDTO consultoriaDTO) {
-        AgenteImobiliario agente = agenteRepo.findById(consultoriaDTO.creciAgente()).orElse(null);
+        AgenteImobiliario agente = agenteRepo.findById(consultoriaDTO.getCreciAgente()).orElse(null);
         if (agente == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agente imobiliário não encontrado");
 
-        Cliente cliente = clienteRepo.findById(consultoriaDTO.cpfCliente()).orElse(null);
+        Cliente cliente = clienteRepo.findById(consultoriaDTO.getCpfCliente()).orElse(null);
         if (cliente == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
 
-        Consultoria consultoria = new Consultoria(cliente, agente, consultoriaDTO.data(), consultoriaDTO.hora());
+        Consultoria consultoria = new Consultoria(cliente, agente, consultoriaDTO.getData(), consultoriaDTO.getHora());
 
         try {
             consultoria = consultoriaRepo.save(consultoria);
@@ -124,18 +124,18 @@ public class ConsultoriaController {
         Consultoria consultoriaAtualizada = consultoriaRepo.findById(id).orElse(null);
 
         if (consultoriaAtualizada != null) {
-            if (consultoriaDTO.creciAgente() != null) {
+            if (consultoriaDTO.getCreciAgente() != null) {
                 @SuppressWarnings("null")
-                AgenteImobiliario agente = agenteRepo.findById(consultoriaDTO.creciAgente()).orElse(null);
+                AgenteImobiliario agente = agenteRepo.findById(consultoriaDTO.getCreciAgente()).orElse(null);
                 if (agente != null)
                     consultoriaAtualizada.setAgenteImobiliario(agente);
                 else
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agente imobiliário não encontrado");
             }
-            if (consultoriaDTO.data() != null)
-                consultoriaAtualizada.setData(consultoriaDTO.data());
-            if (consultoriaDTO.hora() != null)
-                consultoriaAtualizada.setData(consultoriaDTO.hora());
+            if (consultoriaDTO.getData() != null)
+                consultoriaAtualizada.setData(consultoriaDTO.getData());
+            if (consultoriaDTO.getHora() != null)
+                consultoriaAtualizada.setData(consultoriaDTO.getHora());
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Consultoria não encontrada");
 

@@ -18,6 +18,10 @@ public class AgenteImobiliario extends Usuario {
         return creci;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
     public String getCnpjImobiliaria() {
         return cnpjImobiliaria;
     }

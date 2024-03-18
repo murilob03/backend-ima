@@ -12,7 +12,7 @@ public class Usuario {
     private String nome;
 
     @Column(unique = true)
-    @Pattern(regexp = "(\\(\\d{2}\\))|(\\d{2})\\d{4,5}-?\\d{4}", message = "Telefone inválido")
+    @Pattern(regexp = "(\\(\\d{2}\\)|\\d{2})(\\d{4,5}-?\\d{4}|\\d{8,9})", message = "Telefone inválido")
     private String telefone;
 
     @Size(min = 8, max = 50, message = "Senha deve ter entre 8 e 50 caracteres")

@@ -1,8 +1,13 @@
 package com.imobarea.api.models.dto;
 
-public record LerUsuarioDTO(
-        String nome,
-        String telefone,
-        String email) {
-        
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class LerUsuarioDTO {
+    private String nome;
+    private String telefone;
+    private String email;
+
 }

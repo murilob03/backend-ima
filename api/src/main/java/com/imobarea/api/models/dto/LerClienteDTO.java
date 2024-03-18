@@ -1,21 +1,13 @@
 package com.imobarea.api.models.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
 
-@JsonIgnoreProperties(value = {"usuario"})
-public record LerClienteDTO (
-        LerUsuarioDTO usuario,
-        String cpf
-) {
-    public String getNome() {
-        return usuario.nome();
-    }
+@Getter
+public class LerClienteDTO extends LerUsuarioDTO {
+    private String cpf;
 
-    public String getTelefone() {
-        return usuario.telefone();
-    }
-
-    public String getEmail() {
-        return usuario.email();
+    public LerClienteDTO(String nome, String telefone, String email, String cpf) {
+        super(nome, telefone, email);
+        this.cpf = cpf;
     }
 }

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.imobarea.api.models.dto.AtualizarUsuarioDTO;
 import com.imobarea.api.models.dto.LerClienteDTO;
-import com.imobarea.api.models.dto.LerUsuarioDTO;
 import com.imobarea.api.models.entity.Cliente;
 import com.imobarea.api.repositories.ClienteRepositorio;
 
@@ -47,6 +47,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Erro ao criar cliente", content = @Content)
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Cliente criarCliente(@RequestBody @NonNull @Valid Cliente cliente) {
         try {
             cliente = clienteRepositorio.save(cliente);
@@ -79,8 +80,8 @@ public class ClienteController {
     })
     @GetMapping("/todos")
     public List<LerClienteDTO> buscarTodosClientes() {
-        List<LerClienteDTO> clientesDTO = new ArrayList<LerClienteDTO>();
         List<Cliente> clientes = (List<Cliente>) clienteRepositorio.findAll();
+        List<LerClienteDTO> clientesDTO = new ArrayList<LerClienteDTO>();
 
         for (Cliente cliente : clientes) {
             clientesDTO.add(mapEntityToDTO(cliente));
@@ -100,10 +101,10 @@ public class ClienteController {
         Cliente clienteAtualizado = clienteRepositorio.findById(cpf).orElse(null);
 
         if (clienteAtualizado != null) {
-            if (usuarioDTO.telefone() != null)
-                clienteAtualizado.setTelefone(usuarioDTO.telefone());
-            if (usuarioDTO.email() != null)
-                clienteAtualizado.setEmail(usuarioDTO.email());
+            if (usuarioDTO.getTelefone() != null)
+                clienteAtualizado.setTelefone(usuarioDTO.getTelefone());
+            if (usuarioDTO.getEmail() != null)
+                clienteAtualizado.setEmail(usuarioDTO.getEmail());
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
 
@@ -125,11 +126,7 @@ public class ClienteController {
     }
 
     private LerClienteDTO mapEntityToDTO(Cliente cliente) {
-        LerUsuarioDTO usuarioDTO = new LerUsuarioDTO(
-                cliente.getNome(),
-                cliente.getTelefone(),
-                cliente.getEmail());
 
-        return new LerClienteDTO(usuarioDTO, cliente.getCpf());
+        return new LerClienteDTO(cliente.getNome(), cliente.getTelefone(), cliente.getEmail(), cliente.getCpf());
     }
 }
