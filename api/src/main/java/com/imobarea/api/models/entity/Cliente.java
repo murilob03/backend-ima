@@ -14,6 +14,9 @@ public class Cliente extends Usuario {
 
     public Cliente(String nome, String telefone, String senha, String email, UserRole role, String cpf) {
         super(nome, telefone, senha, email, role);
+
+        // Normaliza o CPF
+        this.cpf = cpf.replaceAll("[^0-9]", "");
         this.cpf = cpf;
     }
 

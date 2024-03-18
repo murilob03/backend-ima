@@ -2,6 +2,7 @@ package com.imobarea.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.imobarea.api.models.dto.CriarAgenteDTO;
 import com.imobarea.api.models.dto.LerAgenteDTO;
 import com.imobarea.api.models.entity.AgenteImobiliario;
+import com.imobarea.api.models.entity.UserRole;
 import com.imobarea.api.repositories.AgenteRepositorio;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,21 +35,29 @@ public class AgenteController {
     @Autowired
     private AgenteRepositorio agenteRepositorio;
 
+    @SuppressWarnings("null")
     @Operation(summary = "Cria um novo agente imobiliário.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agente criado com sucesso.", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = AgenteImobiliario.class)) }),
-            @ApiResponse(responseCode = "400", description = "Erro ao criar agente.", content = @Content)
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CriarAgenteDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "CRECI já cadastrado.", content = @Content)
     })
     @PostMapping("/criar")
-    public AgenteImobiliario criarAgente(@RequestBody @NonNull @Valid AgenteImobiliario agente) {
+    public ResponseEntity<CriarAgenteDTO> criarAgente(@RequestBody @NonNull @Valid CriarAgenteDTO agenteDTO) {
+        if (agenteRepositorio.findById(agenteDTO.creci()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CRECI já cadastrado.");
+        }
+        
+        AgenteImobiliario novoAgente = new AgenteImobiliario(agenteDTO.nome(), agenteDTO.telefone(),
+                "senha", agenteDTO.email(), UserRole.USER, agenteDTO.creci(), agenteDTO.cpf(), agenteDTO.cnpjImobiliaria());
+
         try {
-            agente = agenteRepositorio.save(agente);
+            novoAgente = agenteRepositorio.save(novoAgente);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao criar agente.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao criar agente.");
         }
 
-        return agente;
+        return ResponseEntity.status(HttpStatus.CREATED).body(agenteDTO);
     }
 
     @Operation(summary = "Busca todos os agentes imobiliários cadastrados.")

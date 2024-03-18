@@ -37,6 +37,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, WHITE_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registrar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/agente/criar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{cpf}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/cliente/todos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/consultoria/todos").hasRole("ADMIN")
                         .anyRequest().authenticated())

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
-public class CriarClienteDTO {
+public class RegistrarDTO {
     @NotBlank(message = "Nome não pode ser vazio")
     private String nome;
 
@@ -22,4 +22,8 @@ public class CriarClienteDTO {
     
     @NotBlank(message = "CPF não pode ser vazio")
     private String cpf;
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }

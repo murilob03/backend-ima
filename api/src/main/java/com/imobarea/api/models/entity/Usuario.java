@@ -9,12 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @MappedSuperclass
 @NoArgsConstructor
-@AllArgsConstructor
 public class Usuario implements UserDetails {
 
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
@@ -30,6 +28,17 @@ public class Usuario implements UserDetails {
     private String email;
 
     private UserRole role;
+
+    public Usuario(String nome, String telefone, String senha, String email, UserRole role) {
+        this.nome = nome;
+
+        // Normaliza o telefone
+        this.telefone = telefone.replaceAll("[^0-9]", "");
+        
+        this.senha = senha;
+        this.email = email;
+        this.role = role;
+    }
 
     public String getNome() {
         return nome;
@@ -53,6 +62,10 @@ public class Usuario implements UserDetails {
 
     public String getSenha() {
         return senha;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 
     @Override

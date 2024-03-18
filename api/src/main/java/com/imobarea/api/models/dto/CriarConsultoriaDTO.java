@@ -8,9 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CriarConsultoriaDTO {
-    @NotBlank(message = "CPF do cliente não pode ser vazio")
-    private String cpfCliente;
-
     @NotBlank(message = "CRECI do agente não pode ser vazio")
     private String creciAgente;
 
