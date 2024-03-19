@@ -31,7 +31,7 @@ public class Consultoria {
     private AgenteImobiliario agenteImobiliario;
 
     @NotBlank 
-    @Pattern(regexp = "\\d{4}/\\d{2}/\\d{2}")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
     private String data;
 
     @NotBlank 

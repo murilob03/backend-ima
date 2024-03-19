@@ -12,7 +12,7 @@ public class CriarConsultoriaDTO {
     private String creciAgente;
 
     @NotBlank
-    @Pattern(regexp = "\\d{4}/\\d{2}/\\d{2}")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
     private String data;
 
     @NotBlank

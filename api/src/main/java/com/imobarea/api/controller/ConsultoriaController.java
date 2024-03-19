@@ -7,8 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -73,7 +74,8 @@ public class ConsultoriaController {
                 consultoria.getCliente().getCpf(),
                 consultoria.getAgenteImobiliario().getCreci(),
                 consultoria.getData(),
-                consultoria.getHora());
+                consultoria.getHora(),
+                consultoria.getId());
 
         return consultoriaSalva;
     }
@@ -90,7 +92,7 @@ public class ConsultoriaController {
         List<Consultoria> consultorias = consultoriaRepo.findAll();
 
         return consultorias.stream().map(consultoria -> new LerConsultoriaDTO(consultoria.getCliente().getCpf(),
-                consultoria.getAgenteImobiliario().getCreci(), consultoria.getData(), consultoria.getHora()))
+                consultoria.getAgenteImobiliario().getCreci(), consultoria.getData(), consultoria.getHora(), consultoria.getId()))
                 .toList();
     }
 
@@ -107,8 +109,12 @@ public class ConsultoriaController {
 
         List<Consultoria> consultorias = consultoriaRepo.findByClienteCpf(clienteLogado.getCpf());
 
-        return consultorias.stream().map(consultoria -> new LerConsultoriaDTO(consultoria.getCliente().getCpf(),
-                consultoria.getAgenteImobiliario().getCreci(), consultoria.getData(), consultoria.getHora()))
+        return consultorias.stream().map(consultoria -> new LerConsultoriaDTO(
+                consultoria.getAgenteImobiliario().getCreci(),
+                consultoria.getData(),
+                consultoria.getHora(),
+                consultoria.getCliente().getCpf(),
+                consultoria.getId()))
                 .toList();
     }
 
@@ -120,7 +126,7 @@ public class ConsultoriaController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @SecurityRequirement(name = "bearerAuth")
-    public void deletarConsultoria(@NonNull Long id) {
+    public void deletarConsultoria(@PathVariable long id) {
         try {
             consultoriaRepo.deleteById(id);
         } catch (Exception e) {
@@ -135,9 +141,9 @@ public class ConsultoriaController {
             @ApiResponse(responseCode = "404", description = "Consulta ou agente imobiliário não encontrado", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro ao atualizar consultoria", content = @Content)
     })
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @SecurityRequirement(name = "bearerAuth")
-    public LerConsultoriaDTO atualizarConsultoria(@NonNull Long id,
+    public LerConsultoriaDTO atualizarConsultoria(@PathVariable long id,
             @RequestBody @Valid @NonNull CriarConsultoriaDTO consultoriaDTO) {
 
         Consultoria consultoriaAtualizada = consultoriaRepo.findById(id).orElse(null);
@@ -154,7 +160,7 @@ public class ConsultoriaController {
             if (consultoriaDTO.getData() != null)
                 consultoriaAtualizada.setData(consultoriaDTO.getData());
             if (consultoriaDTO.getHora() != null)
-                consultoriaAtualizada.setData(consultoriaDTO.getHora());
+                consultoriaAtualizada.setHora(consultoriaDTO.getHora());
         } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Consultoria não encontrada");
 
@@ -164,7 +170,8 @@ public class ConsultoriaController {
                 consultoriaAtualizada.getCliente().getCpf(),
                 consultoriaAtualizada.getAgenteImobiliario().getCreci(),
                 consultoriaAtualizada.getData(),
-                consultoriaAtualizada.getHora());
+                consultoriaAtualizada.getHora(),
+                consultoriaAtualizada.getId());
 
         return consultoriaSalva;
     }
