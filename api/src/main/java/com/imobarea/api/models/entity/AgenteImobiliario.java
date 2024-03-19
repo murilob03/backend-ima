@@ -12,7 +12,6 @@ public class AgenteImobiliario extends Usuario {
     private String creci;
 
     @NotBlank(message = "CPF não pode ser vazio")
-    @Column(unique = true, nullable = false)
     private String cpf;
 
     private String cnpjImobiliaria;
