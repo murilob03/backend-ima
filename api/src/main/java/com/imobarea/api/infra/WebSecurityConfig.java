@@ -27,7 +27,8 @@ public class WebSecurityConfig {
         String[] WHITE_LIST = {
             "/agente/todos",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/docs"
         };
 
         return http
