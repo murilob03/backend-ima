@@ -91,8 +91,12 @@ public class ConsultoriaController {
     public Iterable<LerConsultoriaDTO> listarConsultorias() {
         List<Consultoria> consultorias = consultoriaRepo.findAll();
 
-        return consultorias.stream().map(consultoria -> new LerConsultoriaDTO(consultoria.getCliente().getCpf(),
-                consultoria.getAgenteImobiliario().getCreci(), consultoria.getData(), consultoria.getHora(), consultoria.getId()))
+        return consultorias.stream().map(consultoria -> new LerConsultoriaDTO(
+                consultoria.getAgenteImobiliario().getCreci(),
+                consultoria.getData(),
+                consultoria.getHora(),
+                consultoria.getCliente().getCpf(),
+                consultoria.getId()))
                 .toList();
     }
 
